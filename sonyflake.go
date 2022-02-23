@@ -9,6 +9,7 @@ package sonyflake
 import (
 	"errors"
 	"net"
+	"strconv"
 	"sync"
 	"time"
 )
@@ -98,11 +99,21 @@ func (sf *Sonyflake) NextID() (uint64, error) {
 		if sf.sequence == 0 {
 			sf.elapsedTime++
 			overtime := sf.elapsedTime - current
-			time.Sleep(sleepTime((overtime)))
+			time.Sleep(sleepTime(overtime))
 		}
 	}
 
 	return sf.toID()
+}
+
+func (sf *Sonyflake) NextID64() (int64, error) {
+	id, err := sf.NextID()
+	return int64(id), err
+}
+
+func (sf *Sonyflake) NextIDString() (string, error) {
+	id, err := sf.NextID()
+	return strconv.Itoa(int(id)), err
 }
 
 const sonyflakeTimeUnit = 1e7 // nsec, i.e. 10 msec
