@@ -1,3 +1,3 @@
-module github.com/sony/sonyflake
+module github.com/Sterrenhemel/sonyflake
 
-go 1.13
+go 1.17
